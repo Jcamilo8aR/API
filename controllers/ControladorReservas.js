@@ -1,27 +1,32 @@
+import { ServicioReserva } from "../services/ServicioReserva.js"
+
 export class ControladorReservas{
-    constructor(){}
-    
-    buscarTodas(request,response){
-        // Ejercicios logica de negocio
-        try{
+        constructor(){}
+       
+        async buscarTodas(request,response){
+            // Ejercicios logica de negocio
+            try{
+                let servicioReserva=new ServicioReserva()
                 // 1. Hay que recibir datos?
                 // 2. Intentare conectarme a la BD
                 // 3. Envio la respuesta
                 response.status(200).json({
                         "estado":true,
                         "mensaje":"Exito buscando las reservaes",
-                        "datos":"ACA VAN LOS DATOS CONSULTAROS EN LA BD"
-        })
-        }catch(error){
+                        "datos":await servicioReserva.buscarTodas()
+            })
+            }catch(error){
                 response.status(400).json({
                         "estado":false,
                         "mensaje":"Error buscando las reservaes "+error,
-                        "datos":null 
-        }) 
+                        "datos":null
+                })
+            }
         }
-    }
-    buscarID(request,response){
-        try{    
+
+        async buscarID(request,response){
+            try{    
+                let servicioReserva=new ServicioReserva()
                 // 1. Hay que recibir datos? (si)
                 let id=request.params.id
                 // 2. Con el id que mando el cliente busco la reserva en BD
@@ -29,74 +34,89 @@ export class ControladorReservas{
                 response.status(200).json({
                         "estado":true,
                         "mensaje":"Exito buscando las reservas",
-                        "datos":"ACA VAN LOS DATOS CONSULTAROS EN LA BD"
+                        "datos":await servicioReserva.buscarID(id)
                 })      
-        }catch(error){
+            }catch(error){
                 response.status(400).json({
                         "estado":false,
                         "mensaje":"Error buscando las reservas "+error,
-                        "datos":null 
-                }) 
+                        "datos":null
+                })
+            }
         }
-    }
-    modificar(request,response){
-        try{
+
+        async modificar(request,response){
+            try{
+                let servicioReserva=new ServicioReserva()
                 // 1. Hay que recibir datos? (si)
                 let id = request.params.id
-                let datosModificar=request.body
+                let datos=request.body
                 // 2. Modificar en BD
                 // 3. Enviar la respuesta
+                await servicioReserva.modificar(id,datos)
                 response.status(200).json({
                         "estado":true,
                         "mensaje":"Exito modificando la reserva",
                         "datos":null
                 })  
-        }catch(error){
+            }catch(error){
                 response.status(400).json({
                         "estado":false,
                         "mensaje":"Error modificando la reserva "+error,
-                        "datos":null 
-                }) 
+                        "datos":null
+                })
+            }
         }
-    }
-    registrar(request,response){
-        try{
+
+        async registrar(request,response){
+            try{
+                let servicioReserva=new ServicioReserva()
                 // 1. Hay que recibir datos? (si)
                 let id = request.params.id
-                let datosRegistrar=request.body
+                let datos=request.body
+                /* Tomar 2 fechas del objeto datos
+                diferencia en dias de esas 2 fechas */
                 // 2. Modificar en BD
                 // 3. Enviar la respuesta
-      response.status(200).json({
+                //await servicioReserva.registrar(datos)
+                response.status(200).json({
                         "estado":true,
                         "mensaje":"Exito modificando la reserva",
-                        "datos":null
+                        "datos":datos,
+                        "diferencia":"diferencia en dias calculada"
                 })  
-        }catch(error){
+            }catch(error){
                 response.status(400).json({
                         "estado":false,
                         "mensaje":"Error modificando la reserva "+error,
-                        "datos":null 
-                }) 
+                        "datos":null
+                })
+            }
         }
-    }
-    eliminar(request,response){
-        try{
+
+        async eliminar(request,response){
+            try{
+                let servicioReserva=new ServicioReserva()
                 // 1. Hay que recibir datos? (si)
                 let id = request.params.id
                 // 2. Modificar en BD
                 // 3. Enviar la respuesta
-      response.status(200).json({
+                response.status(200).json({
                         "estado":true,
                         "mensaje":"Exito borrando la reserva",
                         "datos":null
                 })  
-
-        }catch(error){
+    
+    
+            }catch(error){
                 response.status(400).json({
                         "estado":false,
                         "mensaje":"Error borrando la reserva "+error,
-                        "datos":null 
-                }) 
+                        "datos":null
+                })
+            }
         }
     }
-}
+    
+    
+    

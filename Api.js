@@ -1,11 +1,15 @@
 import express from "express";
 import { rutasAPI } from "./routes/rutasHoteles.js";
+import { establecerConexionBD } from "./database/conexion.js";
+
 
 export class Api{
     constructor(){
         this.app=express()
         this.procesarPeticiones() //HACEMOS QUE APENAS SE CONTRUYA PROCESO LAS PETICIONES
+        this.conectarBD()
     }
+
 
     // 1.Levantar servidor
     levantarServidor(){
@@ -13,6 +17,8 @@ export class Api{
             console.log("Servidor Operando");
         })
     }
+
+
 
 
     // 2.Atiende las petiicones
@@ -23,8 +29,13 @@ export class Api{
     }
 
 
-    // 3.1 se conecta con la base de datos
 
+
+    // 3. se conecta con la base de datos
+    conectarBD(){
+        establecerConexionBD()
+    }
    
+
 
 }
