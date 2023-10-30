@@ -1,116 +1,99 @@
-import { ServicioHabitacion } from "../services/ServicioHabitacion.js"
+
+import {ServicioHabitacion} from '../services/ServicioHabitacion.js'
 
 export class ControladorHabitacion{
-        constructor(){}
-       
-        async buscarTodas(request,response){
-            // Ejercicios logica de negocio
-            try{
-                let servicioHabitacion=new ServicioHabitacion()
-                // 1. Hay que recibir datos?
-                // 2. Intentare conectarme a la BD
-                // 3. Envio la respuesta
-                response.status(200).json({
-                        "estado":true,
-                        "mensaje":"Exito buscando las habitaciones",
-                        "datos":servicioHabitacion.buscarTodas()
+
+    constructor(){}
+    async registrarHabitacion(peticion,respuesta){
+        try{
+            let servicioHabitacion=new ServicioHabitacion()
+            //1. Esculcar los datos que quieren usar para el registro
+            let datosHabitacionRegistrar=peticion.body
+            //2. Validar los datos
+            //3. Intentar guardar los datos
+            await servicioHabitacion.registrarHabitacion(datosHabitacionRegistrar)
+            //4. Responder
+            respuesta.status(200).json({
+                "mensaje":"exito en la operacion de guardado",
+                "datos":datosHabitacionRegistrar
             })
-            }catch(error){
-                response.status(400).json({
-                        "estado":false,
-                        "mensaje":"Error buscando las habitaciones "+error,
-                        "datos":null
+        }catch(error){
+            respuesta.status(400).json({
+                "mensaje":"fallamos en la operacion de guardado"+error
             })
-            }
-        }
-
-        async buscarID(request,response){
-            try{    
-                let servicioHabitacion=new ServicioHabitacion(id)
-                // 1. Hay que recibir datos? (si)
-                let id=request.params.id
-                // 2. Con el id que mando el cliente busco la habitacion en BD
-                // 3. Respondo al cliente
-                response.status(200).json({
-                        "estado":true,
-                        "mensaje":"Exito buscando las habitaciones",
-                        "datos":await servicioHabitacion.buscarID()
-                })      
-            }catch(error){
-                response.status(400).json({
-                        "estado":false,
-                        "mensaje":"Error buscando las habitaciones "+error,
-                        "datos":null
-                })
-            }
-        }
-
-        async modificar(request,response){
-            try{
-                let servicioHabitacion=new ServicioHabitacion()
-                // 1. Hay que recibir datos? (si)
-                let id = request.params.id
-                let datos=request.body
-                // 2. Modificar en BD
-                // 3. Enviar la respuesta
-                await servicioHabitacion.modificar(id,datos) //DATOS
-                response.status(200).json({
-                        "estado":true,
-                        "mensaje":"Exito modificando la habitacion",
-                        "datos": "aca los datos" 
-                })  
-            }catch(error){
-                response.status(400).json({
-                        "estado":false,
-                        "mensaje":"Error modificando la habitacion "+error,
-                        "datos":null
-                })
-            }
-        }
-
-        async registrar(request,response){
-            try{
-                let servicioHabitacion=new ServicioHabitacion()
-                // 1. Hay que recibir datos? (si)
-                // let id = request.params.id
-                let datos=request.body
-                // 2. Modificar en BD
-                // 3. Enviar la respuest
-                // await servicioHabitacion.registrar(datos)
-            response.status(200).json({
-                    "estado":true,
-                    "mensaje":"Exito registrando la habitacion",
-                    "datos":datos
-                    })  
-            }catch(error){
-                response.status(400).json({
-                    "estado":false,
-                    "mensaje":"Error registrando la habitacion "+error,
-                    "datos":null
-                })
-            }
-        }
-
-        async eliminar(request,response){
-            try{
-                let servicioHabitacion=new ServicioHabitacion(id)
-                // 1. Hay que recibir datos? (si)
-                let id = request.params.id
-                // 2. Modificar en BD
-                // 3. Enviar la respuesta
-                response.status(200).json({
-                        "estado":true,
-                        "mensaje":"Exito borrando la habitacion",
-                        "datos":null
-                })  
-
-            }catch(error){
-                response.status(400).json({
-                        "estado":false,
-                        "mensaje":"Error borrando la habitacion "+error,
-                        "datos":null
-                })
-            }
         }
     }
-    
+    async buscarHabitaciones(peticion,respuesta){
+        try{
+            let servicioHabitacion=new ServicioHabitacion()
+            //1. INTENTAR BUSCAR LOS DATOS EN BD
+            //2. Responder
+            respuesta.status(200).json({
+                "mensaje":"exito en la operacion de busqueda",
+                "datos":await servicioHabitacion.buscarHabitaciones()
+            })
+
+        }catch(error){
+            respuesta.status(400).json({
+                "mensaje":"fallamos en la operacion de busqueda"+error
+            })
+        }
+    }
+    async buscarHabitacionPorId(peticion,respuesta){
+        try{
+            let servicioHabitacion = new ServicioHabitacion()
+            //1.Esculcar los parametros de la peticion
+            let idHabitacionBuscar=peticion.params.id
+            //2. validar el dato que llego
+            //3.Intento buscar el dato en BD
+            //4. responder
+            respuesta.status(200).json({
+                "mensaje":"exito en la operacion de busqueda",
+                "datos":await servicioHabitacion.buscarHabitacion(idHabitacionBuscar)
+            })
+        }catch(error){
+            respuesta.status(400).json({
+                "mensaje":"fallamos en la operacion de guardado"+error
+            })
+        }
+    }
+    async modificarHabitacion(peticion,respuesta){
+        try{
+            let servicioHabitacion= new ServicioHabitacion()
+            //1.traigo el id a editar de la peticion
+            let idHabitacionModificar=peticion.params.id
+            let datosHabitacionModificar=peticion.body
+            //validar los datos
+            //Intentar buscar y modificar en BD
+            await servicioHabitacion.modificarHabitacion(idHabitacionModificar,datosHabitacionModificar)
+            //responder
+            respuesta.status(200).json({
+                "mensaje":"exito en la operacion de edicion",
+                "datos":datosHabitacionModificar
+            })
+
+        }catch(error){
+            respuesta.status(400).json({
+                "mensaje":"fallamos en la operacion de edicion"+error
+            })
+        }
+    }
+    async borrarHabitacion(peticion,respuesta){
+        try{
+            let servicioHabitacion= new ServicioHabitacion()
+            let idHabitacionBorrar=peticion.params.id
+            await servicioHabitacion.borrarHabitacion(idHabitacionBorrar)
+            //validar
+            //intento borrar la habitacion en BD
+            respuesta.status(200).json({
+                "mensaje":"Exito en la operacion de borrado"
+            })
+
+        }catch(error){
+            respuesta.status(400).json({
+                "mensaje":"Fallamos en la operacion de edicion"+error
+            })
+        }
+    }
+
+}

@@ -1,23 +1,24 @@
 import {modeloReserva} from'../models/modeloReserva.js' 
 export class ServicioReserva{
-
     constructor(){}
-    
-    async buscarTodas(){
-        let reservas=await modeloHabitacion.find()
-    }
-    async buscarID(id){
-        let reserva=await modeloHabitacion.findById(id)
-        return reserva()
-    }
-    async modificar(id,datos){
-        return await modeloReserva.findByIdAndUpdate(id,datos)
-    }
+
     async registrar(datos){
-        // verificamos que los datos cumplan con el modelo
         let reservaNueva=new modeloReserva(datos)
         return await reservaNueva.save()
     }
-    eliminar(id){} 
+    async buscar(){
+        let reservas=await modeloReserva.find()
+        return reservas
+    }
+    async buscarID(id){
+        let reserva=await modeloReserva.findById(id)
+        return reserva
+    }reserva
+    async modificar(id,datos){
+        return await modeloReserva.findByIdAndUpdate(id,datos)
+    }
+    async eliminar(id){
+        let reserva=await modeloReserva.findByIdAndDelete(id)
+    }
 
 }

@@ -1,26 +1,24 @@
-// importamos el modelo
-import {modeloHabitacion} from'../models/modeloHabitacion.js'
+import {modeloHabitacion} from '../models/modeloHabitacion.js'
 export class ServicioHabitacion{
-
     constructor(){}
-        //por cada metodo en el controlador, ponemos un metodo en el servicio
-        async buscarTodas(){
-            let habitaciones=await modeloHabitacion.find()
-        }
-        async buscarID(id){
-            let habitacion=await modeloHabitacion.findById(id)
-            return habitacion()
-        }
-        async modificar(id,datos){
-            return await modeloHabitacion.findByIdAndUpdate(id,datos)
-        }
-        async registrar(datos){
-            // verificamos que los datos cumplan con el modelo
-            let habitacionNueva=new modeloHabitacion(datos)
-            return await habitacionNueva.save()
-        }
-        async eliminar(id){
-            return await modeloHabitacion.deleteOne(id)
-        }        
+
+    async registrarHabitacion(datos){
+        let habitacionNueva=new modeloHabitacion(datos)
+        return await habitacionNueva.save()
+    }
+    async buscarHabitaciones(){
+        let habitaciones=await modeloHabitacion.find()
+        return habitaciones
+    }
+    async buscarHabitacion(id){
+        let habitacion=await modeloHabitacion.findById(id)
+        return habitacion
+    }
+    async modificarHabitacion(id,datos){
+        return await modeloHabitacion.findByIdAndUpdate(id,datos)
+    }
+    async borrarHabitacion(id){
+        let habitacion=await modeloHabitacion.findByIdAndDelete(id)
+    }
 
 }

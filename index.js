@@ -1,8 +1,11 @@
-import { Api } from "./Api.js";
+import {Api} from './Api.js'
 import 'dotenv/config'
-// console.log(process.env)
 
-let servidor = new Api(); // CREANDO UN OBJETO DE LA CLASE API
+//console.log(process.env)
 
-// LEVANTAMOS EL SERIVDOR
-servidor.levantarServidor()
+//Para usar una clase debo crear un objeto
+//Para usar una clase se debe crear una instancia
+// Todo objeto es una variable
+let servidor=new Api()
+//levantar o despertar el servidor
+servidor.leventarServidor()
