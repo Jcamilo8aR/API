@@ -9,7 +9,7 @@ export class Api {
         this.procesarPeticiones()
     }
     leventarServidor() {
-        this.app.listen(3000, function () {
+        this.app.listen(process.env, function () {
             console.log("servidor operando con exito")
         })
     }
